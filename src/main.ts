@@ -10,7 +10,7 @@ async function bootstrap() {
     origin: true,
     credentials: true,
   });
-  await app.listen(3000);
+
   const config = new DocumentBuilder()
     .setTitle('DODODODO API')
     .setDescription('DODODODO API 정리 문서')
@@ -32,5 +32,8 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
+  console.log(`listen on port ${port}`);
 }
 bootstrap();
