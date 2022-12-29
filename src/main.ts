@@ -12,8 +12,8 @@ async function bootstrap() {
   });
 
   const config = new DocumentBuilder()
-    .setTitle('DODODODO API')
-    .setDescription('DODODODO API 정리 문서')
+    .setTitle('SHBLOG API')
+    .setDescription('SHBLOG API 정리 문서')
     .setVersion('1.0')
     .addCookieAuth('connect.sid')
     .build();
