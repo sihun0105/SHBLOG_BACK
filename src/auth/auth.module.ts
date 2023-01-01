@@ -4,15 +4,17 @@ import { LocalStrategy } from './local.strategy';
 import { UsersModule } from '../users/users.module'
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from './constants';
-import { UsersService } from 'src/users/users.service';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     UsersModule,
     PassportModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     JwtModule.register({
-      secret: jwtConstants.secret,
+      secret: process.env.JWT_ACCESS_TOKEN_SECRET,
       signOptions: { expiresIn: '60s' },
     }),
   ],
