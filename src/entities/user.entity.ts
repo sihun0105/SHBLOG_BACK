@@ -1,16 +1,23 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 
 @Entity({ schema: 'SHBLOG', name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id : number;
 
-  @Column()
-  firstName: string;
+  @Column({nullable : false})
+  email : string;
 
-  @Column()
-  lastName: string;
+  @Column( {type:'varchar', name: 'password', length: 100})
+  password: string;
 
-  @Column({ default: true })
-  isActive: boolean;
+  @CreateDateColumn()
+  createdAt : Date;
+
+  @UpdateDateColumn()
+  updatedAt : Date;
+
+  @DeleteDateColumn()
+  deletedAt : Date;
+  
 }
