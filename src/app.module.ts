@@ -6,6 +6,7 @@ import { LoggerMiddleware } from './middleware/logger.middleware';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SendmailModule } from './sendmail/sendmail.module';
 import * as ormconfig from '../ormconfig';
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import * as ormconfig from '../ormconfig';
     TypeOrmModule.forRoot(ormconfig),
     AuthModule,
     UsersModule,
+    SendmailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
