@@ -13,7 +13,7 @@ const config: TypeOrmModule = {
   entities : [User],
   autoLoadEntities: true,
   charset: 'utf8mb4',
-  synchronize: true, //개발환경일 때 만 한번만 돌리고 false해야댐 아니면 DB다시 만들어서 데이터 날라감 주의!!!!
+  synchronize: false, //개발환경일 때 만 한번만 돌리고 false해야댐 아니면 DB다시 만들어서 데이터 날라감 주의!!!!
   logging: true,
   keepConnectionAlive: true,
 };
