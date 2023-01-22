@@ -1,23 +1,25 @@
-import { Injectable } from '@nestjs/common';
-
-export type User = any;
+import { ForbiddenException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/entities/user.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Repository, DataSource } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+    private dataSource: DataSource,
+  ) {}
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find(user => user.username === username);
+  
+
+  async getByEmail(email: string) {
+    const user = await this.usersRepository.findOne({ where: { email } });
+    if (user) {
+      return user;
+    }
+    throw new ForbiddenException('이미 존재하는 사용자입니다. '); // 유저 정보가 있다면?
   }
 }
