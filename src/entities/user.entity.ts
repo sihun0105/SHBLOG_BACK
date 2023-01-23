@@ -1,26 +1,61 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  Index,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
+@Index('email', ['email'], { unique: true })
 @Entity({ schema: 'SHBLOG', name: 'users' })
-export class User {
-  @PrimaryGeneratedColumn()
-  id : number;
+export class Users {
+  @ApiProperty({
+    example: '1',
+    description: '사용자 아이디',
+  })
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
+  id: number;
 
-  @Column({nullable : false})
-  email : string;
+  @IsEmail()
+  @ApiProperty({
+    example: 'tlgns14@nate.com',
+    description: '사용자 이메일',
+  })
+  @Column('varchar', { name: 'email', unique: true, length: 30 })
+  email: string;
 
-  @Column({nullable : false})
-  nickname : string;
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    example: '김시후니후니',
+    description: '사용자 닉네임',
+  })
+  @Column('varchar', { name: 'nickname', length: 30 })
+  nickname: string;
 
-  @Column( {type:'varchar', name: 'password', length: 100})
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    example: '1q2w3e4r',
+    description: '사용자 비밀번호',
+  })
+  @Column('varchar', { name: 'password', length: 100, select: true })
   password: string;
 
   @CreateDateColumn()
-  createdAt : Date;
+  createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt : Date;
+  updatedAt: Date;
 
   @DeleteDateColumn()
-  deletedAt : Date;
-  
+  deletedAt: Date | null;
+
 }
