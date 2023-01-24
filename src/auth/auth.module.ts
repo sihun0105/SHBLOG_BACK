@@ -1,26 +1,20 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalStrategy } from './local.strategy';
-import { UsersModule } from '../users/users.module'
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { SendmailModule } from 'src/sendmail/sendmail.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Users } from 'src/entities/user.entity';
+import { LocalSerializer } from './local.serializer';
 
 @Module({
   imports: [
-    UsersModule,
-    PassportModule,
-    SendmailModule,
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
-    JwtModule.register({
-      secret: process.env.JWT_ACCESS_TOKEN_SECRET,
-      signOptions: { expiresIn: '60s' },
-    }),
+    PassportModule.register({ session: true }),
+    TypeOrmModule.forFeature([Users]),
   ],
-  providers: [AuthService, LocalStrategy],
+  providers: [AuthService, LocalStrategy,LocalSerializer],
   exports: [AuthService],
 })
 export class AuthModule {}
