@@ -64,8 +64,4 @@ export class UserController {
     return res.send('ok');
   }
 
-  @Get('findAll')
-  async findAll() {
-    return this.userService.findAll();
-  }
 }
