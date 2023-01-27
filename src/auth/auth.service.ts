@@ -3,11 +3,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { Users } from 'src/entities/user.entity';
+import { TokenPayload } from 'src/interface/tokenPayload.interface';
+import { UserDto } from '../dto/user.dto';
+import { UserService } from 'src/users/users.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(Users) private usersRepository: Repository<Users>,
+    @InjectRepository(Users) 
+    private usersRepository: Repository<Users>,
+    private userService : UserService,
   ) {}
 
   async validateUser(email: string, password: string) {
@@ -25,4 +30,10 @@ export class AuthService {
     }
     return null;
   }
+
+  async tokenValidateUser(payload: TokenPayload): Promise<UserDto | undefined> {
+    return await this.userService.findByFields({
+        where: { id: payload.id }
+    });
+}
 }
