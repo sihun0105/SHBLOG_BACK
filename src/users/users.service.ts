@@ -3,14 +3,15 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Users } from 'src/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DataSource } from 'typeorm';
+import { Repository, DataSource, FindOneOptions } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { UserDto } from 'src/dto/user.dto';
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(Users)
-    private usersRepository: Repository<Users>,
-    private dataSource: DataSource,
+    private readonly usersRepository: Repository<Users>,
+    private readonly dataSource: DataSource,
   ) {}
 
   async create(email: string, nickname: string, password: string) {
@@ -42,30 +43,8 @@ export class UserService {
       await queryRunner.release();
     }
   }
-  async findByEmail(email: string) {
-    return this.usersRepository.findOne({
-      where: { email },
-      select: ['id', 'email', 'password'],
-    });
-  }
-  async findAll() {
-    return this.usersRepository.find({
-      select: ['id', 'nickname'],
-    });
-  }
-
-  findOne(id: number) {
-    if (!id) {
-      throw new HttpException('id undefinded', 400);
-    }
-    return `This action returns a #${id} user`;
-  }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
+  async findByFields(options: FindOneOptions<UserDto>): Promise<Users | undefined> {
+    return await this.usersRepository.findOne(options);
+}
+  
 }
