@@ -49,6 +49,9 @@ export class Users {
   @Column('varchar', { name: 'password', length: 100, select: true })
   password: string;
 
+  @Column('varchar', { name: 'REFRESH_TOKEN', length: 400, default: null})
+  refreshToken: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

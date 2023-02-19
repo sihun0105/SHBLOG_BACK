@@ -32,7 +32,6 @@ export class UserService {
         nickname,
         password: hashedPassword,
       });
-      //throw new Error('rolback test!?!?!?');
       await queryRunner.commitTransaction();
       return true;
     } catch (error) {

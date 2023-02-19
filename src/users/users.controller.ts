@@ -25,6 +25,7 @@ import { UndefinedTonullInterceptor } from 'src/common/undefinedTonull.intercept
 import { LoggedInGuard } from 'src/auth/logged-in-guard';
 import { NotLoggedInGuard } from 'src/auth/not-logged-in-guard';
 import { LocalAuthGuard } from 'src/auth/local-auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 @UseInterceptors(UndefinedTonullInterceptor)
 @Controller('users')
 export class UserController {
