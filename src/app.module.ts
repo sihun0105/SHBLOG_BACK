@@ -8,6 +8,8 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SendmailModule } from './sendmail/sendmail.module';
 import * as ormconfig from '../ormconfig';
+import { ValidationPipe } from "@nestjs/common";
+import { APP_PIPE } from "@nestjs/core";
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -19,7 +21,12 @@ import * as ormconfig from '../ormconfig';
     SendmailModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe,}
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
